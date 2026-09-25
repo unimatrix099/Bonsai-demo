@@ -85,3 +85,12 @@ Not tested.
   Hadamard rotation, so it is much heavier than a similarly-sized sparse-MoE or plain
   Q4_0 model on the same CPU. Do not infer correctness or long-context/vision behavior
   from these pp512/tg128 numbers; vision and long-context were not tested.
+
+- **Custom-kernel experiment (not the stock build).** A `perf` profile of PTQ1_0
+  decode showed 86% of time in `ggml_vec_dot_ptq1_0_q8_0`, which had only a scalar
+  path on ARM. Adding a NEON version of that kernel (base-3 unpack + SDOT, bit-exact
+  with the generic) raised PTQ1_0 tg from 0.38 to 0.67 t/s (1.76x) on this board.
+  This is a local fork change, not the released binary; the kernel and details are in
+  the llama.cpp fork branch `opt/ptq1_0-arm-neon`
+  (`docs/development/rk3588-ptq1_0-neon.md`). Native `-mcpu` flags and thread/affinity
+  tuning gave no gain on their own.

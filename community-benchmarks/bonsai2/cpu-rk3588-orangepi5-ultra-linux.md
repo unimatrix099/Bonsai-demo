@@ -89,8 +89,9 @@ Not tested.
 - **Custom-kernel experiment (not the stock build).** A `perf` profile of PTQ1_0
   decode showed 86% of time in `ggml_vec_dot_ptq1_0_q8_0`, which had only a scalar
   path on ARM. Adding a NEON version of that kernel (base-3 unpack + SDOT, bit-exact
-  with the generic, unpack fused into the dot) raised PTQ1_0 tg from 0.38 to
-  0.70 t/s (1.84x) on this board.
+  with the generic, unpack fused into the dot, and the base-3 trit decode reduced
+  to two threshold compares) raised PTQ1_0 tg from 0.38 to 0.80 t/s (2.1x) on this
+  board.
   This is a local fork change, not the released binary; the kernel and details are in
   the llama.cpp fork branch `opt/ptq1_0-arm-neon`
   (`docs/development/rk3588-ptq1_0-neon.md`). Native `-mcpu` flags and thread/affinity

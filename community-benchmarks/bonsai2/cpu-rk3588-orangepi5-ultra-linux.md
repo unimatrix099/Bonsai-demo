@@ -101,15 +101,17 @@ Not tested.
   the clear pick for this board - faster and smaller. Same build, `-ngl 0 -t 8`,
   performance governor, tg64:
 
-  | Band | bpw | Size | tg t/s |
-  |------|----:|-----:|-------:|
-  | PTQ1_0 (optimized kernel) | 1.75 | 5.53 GiB | 0.86 |
-  | PQ2_0 (native ARM kernel) | 2.16 | 6.70 GiB | 0.32 |
+  | Band | bpw | Size | tg t/s | kernel |
+  |------|----:|-----:|-------:|--------|
+  | PQ2_0  | 2.16 | 6.70 GiB | **1.35** | optimized NEON q8_K |
+  | PTQ1_0 | 1.75 | 5.53 GiB | 0.86 | optimized NEON |
+  | PQ2_0  | 2.16 | 6.70 GiB | 0.32 | stock (scalar q8_K) |
 
-  PQ2_0 is ~2.5x slower despite its cheaper 2-bit codec. It is not on the repack path
-  here (that activates only for x86 AVX512), so this is its native per-row dotprod
-  vec_dot: it reads ~21% more bytes and its `vqtbl` unpack plus per-32 float scaling
-  (`vcvtq_f32_s32` + `vmlaq_n_f32`) is less efficient than the threshold ternary
-  kernel. PQ2_0's only advantage is precision (2.16 vs 1.75 bpw); prefer it only if a
-  quality difference matters and ~2.5x slower decode is acceptable. Its kernel likely
-  has similar optimization headroom (not pursued).
+  Update: with an optimized kernel PQ2_0 is now the FASTEST band, ahead of PTQ1_0,
+  and higher precision. The earlier PQ2_0 0.32 was a stock-kernel artifact: Bonsai 2
+  PQ2_0 weight matrices (ne[0] % 256 == 0) dot against Q8_K, and
+  `ggml_vec_dot_pq2_0_q8_K` was scalar-only on ARM (88% of decode). Adding a NEON
+  version (2-bit vqtbl codec; Q8_K's single per-256 scale lets all 4 sub-blocks
+  accumulate into one int32, scaled once) gives 0.32 -> 1.35 t/s (4.2x), bit-exact.
+  Recommendation flips: PQ2_0 is the best band on this board (fastest + highest
+  precision). Kernels are in the llama.cpp fork branch `opt/ptq1_0-arm-neon`.

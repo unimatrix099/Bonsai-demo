@@ -26,6 +26,8 @@ for commands, raw output, memory use, and configuration.
 | `PQ2_0` | Apple M3 Max 36 GB | llama.cpp Metal | 162.2 | 24.3 | [link](bonsai2/metal-m3-max-36gb-macos.md) |
 | `PQ2_0` | AMD BC-250 16 GB UMA | llama.cpp Vulkan (Linux, local patches) | 142.58 | 24.11 | [link](bonsai2/vulkan-bc250-linux.md) |
 | `PTQ1_0` | Apple M3 Max 36 GB | llama.cpp Metal | 136.8 | 21.9 | [link](bonsai2/metal-m3-max-36gb-macos.md) |
+| `PTQ1_0` | Orange Pi 5 Ultra (RK3588, 16 GB) | llama.cpp CPU (Linux, aarch64) | 0.49 | 0.38 | [link](bonsai2/cpu-rk3588-orangepi5-ultra-linux.md) |
+| `PQ2_0` | Orange Pi 5 Ultra (RK3588, 16 GB) | llama.cpp CPU (Linux, aarch64) | 0.40 | 0.32 | [link](bonsai2/cpu-rk3588-orangepi5-ultra-linux.md) |
 
 ## Earlier 27B families
 

@@ -29,6 +29,8 @@ Benchmark results submitted by the community running
 | `PQ2_0` | Apple M4 Pro 64 GB | llama.cpp Metal | 126.9 | 20.5 | [link](metal-m4-pro-64gb-macos.md) |
 | `PTQ1_0` | Apple M4 Pro 64 GB | llama.cpp Metal | 98.6 | 17.3 | [link](metal-m4-pro-64gb-macos.md) |
 | `2-bit` | Apple M4 Pro 64 GB | MLX (mlx_lm 0.31.3) | 97.9 | 18.9 | [link](metal-m4-pro-64gb-macos.md) |
+| `PTQ1_0` | Orange Pi 5 Ultra (RK3588, 16 GB) | llama.cpp CPU (Linux, aarch64) | 0.49 | 0.38 | [link](cpu-rk3588-orangepi5-ultra-linux.md) |
+| `PQ2_0` | Orange Pi 5 Ultra (RK3588, 16 GB) | llama.cpp CPU (Linux, aarch64) | 0.40 | 0.32 | [link](cpu-rk3588-orangepi5-ultra-linux.md) |
 
 ## How to Submit
 
